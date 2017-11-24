@@ -5,6 +5,16 @@
 
 ##### 在单台服务器多进程中共享内容，利用linux的共享内存。封装了复杂使用，提供简化的方法进行调用。
 
+
+
+## Rely
+
+- #### ext-msgpack
+
+
+
+
+
 # note
 
 ##### By default, the use of shared memory is for static data or basically does not change or change the less data, when the data changes, you need to manually delete the shared memory. The future will be extended automatically delete function.
