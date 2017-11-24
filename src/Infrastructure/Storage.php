@@ -43,13 +43,14 @@ class Storage implements IStorage
         }
         else
         {
-            return unserialize($data);
+            return @msgpack_unpack($data);
         }
     }
 
     public function write($data)
     {
-        shmop_write($this->shmId, serialize($data), 0);
+        $msg = msgpack_pack($data);
+        shmop_write($this->shmId, $msg, 0);
     }
 
     public function info()
