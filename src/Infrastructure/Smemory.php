@@ -50,12 +50,17 @@ class Smemory
         }
 
         $this->data[$key] = $value;
-        $this->storage->write($this->data);
     }
 
     public function getData()
     {
         return $this->data;
+    }
+
+
+    public function flush()
+    {
+        $this->storage->write($this->data);
     }
 
 }

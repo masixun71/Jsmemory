@@ -12,7 +12,6 @@ class Storage implements IStorage
     protected $shmId;
     protected $size;
 
-
     public function __construct($shmKey, $size)
     {
         $this->shmKey = $shmKey;
@@ -36,14 +35,20 @@ class Storage implements IStorage
 
     public function read()
     {
-        $data = shmop_read($this->shmId, 0, $this->size);
+        $data = shmop_read($this->shmId, 0, shmop_size($this->shmId));
         if ($data[0] === "\000")
         {
             return [];
         }
         else
         {
-            return @msgpack_unpack($data);
+            $end = stripos($data, "\000");
+            if ($end !== false)
+            {
+                $data = substr($data, 0, $end);
+            }
+
+            return msgpack_unpack($data);
         }
     }
 
