@@ -42,11 +42,8 @@ class Storage implements IStorage
         }
         else
         {
-            $end = stripos($data, "\000");
-            if ($end !== false)
-            {
-                $data = substr($data, 0, $end);
-            }
+            $len = (int)substr($data, 0, 10);
+            $data = substr($data, 10, $len);
 
             return msgpack_unpack($data);
         }
@@ -55,7 +52,10 @@ class Storage implements IStorage
     public function write($data)
     {
         $msg = msgpack_pack($data);
-        shmop_write($this->shmId, $msg, 0);
+        $len = mb_strlen($msg);
+        $len = sprintf("%010d", $len);
+        shmop_write($this->shmId, $len, 0);
+        shmop_write($this->shmId, $msg, 10);
     }
 
     public function info()

@@ -23,14 +23,16 @@ class tt
 }
 
 
-$storage = new Storage(0xff3,21);
+$storage = new Storage(0xff3,1024);
 
 
 $sme = new Smemory($storage);
 
 $sme->set('a', '1233');
 $sme->set('b', new tt(1, 2));
+$sme->set('c', new tt(1, 2));
 $sme->flush();
 
 var_dump($sme->get('a'));
 var_dump($sme->get('b'));
+var_dump($sme->get('c'));
